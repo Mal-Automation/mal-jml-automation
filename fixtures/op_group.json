@@ -1,0 +1,7 @@
+{
+  "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+  "id": "grp-eng-0001",
+  "displayName": "{{group_name}}",
+  "members": [],
+  "meta": {"resourceType": "Group", "lastModified": "{{now}}"}
+}

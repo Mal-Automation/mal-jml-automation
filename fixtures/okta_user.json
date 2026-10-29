@@ -1,0 +1,25 @@
+{
+  "id": "00u8mock{{uuid}}",
+  "status": "ACTIVE",
+  "created": "{{now}}",
+  "activated": "{{now}}",
+  "statusChanged": "{{now}}",
+  "lastLogin": null,
+  "lastUpdated": "{{now}}",
+  "passwordChanged": null,
+  "type": {"id": "oty1mockdefaulttype"},
+  "profile": {
+    "firstName": "{{first_name}}",
+    "lastName": "{{last_name}}",
+    "mobilePhone": null,
+    "secondEmail": null,
+    "login": "{{email}}",
+    "email": "{{email}}"
+  },
+  "credentials": {
+    "provider": {"type": "OKTA", "name": "OKTA"}
+  },
+  "_links": {
+    "self": {"href": "https://dev-000000.okta.com/api/v1/users/00u8mock{{uuid}}"}
+  }
+}

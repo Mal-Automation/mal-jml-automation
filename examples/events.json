@@ -1,0 +1,18 @@
+[
+  {
+    "type": "joiner",
+    "first_name": "Ada",
+    "last_name": "Lovelace",
+    "email": "ada.lovelace@mal.example",
+    "department": "engineering",
+    "title": "Senior Software Engineer",
+    "manager_email": "grace.hopper@mal.example",
+    "okta_group": "engineering",
+    "vault_group": "Engineering"
+  },
+  {
+    "type": "leaver",
+    "email": "bob.departing@mal.example",
+    "okta_mode": "deactivate"
+  }
+]

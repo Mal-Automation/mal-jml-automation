@@ -1,0 +1,11 @@
+{
+  "status": 201,
+  "id": "4217",
+  "invitation": "1{{uuid}}",
+  "invitation_status": "SENT",
+  "invitation_type": "EMAIL",
+  "sent_to": "{{email}}",
+  "enrollment_url": "{{jamf_url}}/enroll?invitation=1{{uuid}}",
+  "times_used": 0,
+  "created_at": "{{now}}"
+}

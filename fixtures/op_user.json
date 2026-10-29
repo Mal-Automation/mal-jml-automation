@@ -1,0 +1,20 @@
+{
+  "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+  "id": "OPMOCK{{uuid}}",
+  "userName": "{{email}}",
+  "displayName": "{{first_name}} {{last_name}}",
+  "name": {"givenName": "{{first_name}}", "familyName": "{{last_name}}"},
+  "emails": [{"value": "{{email}}", "primary": true}],
+  "active": true,
+  "groups": [
+    {"value": "grp-eng-0001", "display": "Engineering"},
+    {"value": "grp-oncall-0002", "display": "On-Call"},
+    {"value": "grp-allstaff-0003", "display": "All Staff"}
+  ],
+  "meta": {
+    "resourceType": "User",
+    "created": "{{now}}",
+    "lastModified": "{{now}}",
+    "location": "https://scim.example.1password.com/scim/v2/Users/OPMOCK{{uuid}}"
+  }
+}

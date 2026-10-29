@@ -1,0 +1,31 @@
+{
+  "cursor": "aGVsbG8hIElzIGl0IG1lIHlvdSBhcmUgbG9va2luZyBmb3I/",
+  "has_more": false,
+  "items": [
+    {
+      "uuid": "56YE2TYN2VFYRLNSHKPW5NVT5E",
+      "timestamp": "{{now}}",
+      "actor_uuid": "SCIMBRIDGEACTOR000000000000",
+      "actor_details": {"name": "SCIM Bridge", "email": "scim@provisioning"},
+      "action": "leave",
+      "object_type": "gm",
+      "object_uuid": "grp-eng-0001",
+      "aux_info": "{{email}}",
+      "session": {"device_uuid": "mock", "ip": "203.0.113.10"},
+      "location": {"country": "AE", "region": "Dubai", "city": "Dubai"}
+    },
+    {
+      "uuid": "7HQXR2ZP4LMN6CVB8WEFT3YUIA",
+      "timestamp": "{{now}}",
+      "actor_uuid": "SCIMBRIDGEACTOR000000000000",
+      "actor_details": {"name": "SCIM Bridge", "email": "scim@provisioning"},
+      "action": "suspend",
+      "object_type": "user",
+      "object_uuid": "OPMOCKUSER",
+      "object_details": {"email": "{{email}}"},
+      "aux_info": "",
+      "session": {"device_uuid": "mock", "ip": "203.0.113.10"},
+      "location": {"country": "AE", "region": "Dubai", "city": "Dubai"}
+    }
+  ]
+}

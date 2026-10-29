@@ -1,0 +1,19 @@
+{
+  "kind": "admin#directory#user",
+  "id": "1078mock{{uuid}}",
+  "etag": "\"mock-etag\"",
+  "primaryEmail": "{{email}}",
+  "name": {
+    "givenName": "{{first_name}}",
+    "familyName": "{{last_name}}",
+    "fullName": "{{first_name}} {{last_name}}"
+  },
+  "isAdmin": false,
+  "isDelegatedAdmin": false,
+  "creationTime": "{{now}}",
+  "customerId": "C0mock123",
+  "orgUnitPath": "/",
+  "isMailboxSetup": false,
+  "changePasswordAtNextLogin": true,
+  "suspended": false
+}

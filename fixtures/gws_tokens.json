@@ -1,0 +1,37 @@
+{
+  "kind": "admin#directory#tokenList",
+  "etag": "\"mock-etag\"",
+  "items": [
+    {
+      "kind": "admin#directory#token",
+      "clientId": "1234567890-slack.apps.googleusercontent.com",
+      "displayText": "Slack",
+      "anonymous": false,
+      "nativeApp": false,
+      "userKey": "{{email}}",
+      "scopes": [
+        "https://www.googleapis.com/auth/calendar.readonly",
+        "openid",
+        "email"
+      ]
+    },
+    {
+      "kind": "admin#directory#token",
+      "clientId": "9876543210-zoom.apps.googleusercontent.com",
+      "displayText": "Zoom",
+      "anonymous": false,
+      "nativeApp": false,
+      "userKey": "{{email}}",
+      "scopes": ["https://www.googleapis.com/auth/calendar"]
+    },
+    {
+      "kind": "admin#directory#token",
+      "clientId": "5555555555-github.apps.googleusercontent.com",
+      "displayText": "GitHub",
+      "anonymous": false,
+      "nativeApp": false,
+      "userKey": "{{email}}",
+      "scopes": ["openid", "email", "profile"]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "00g9mockgroup0001",
+  "created": "2026-01-15T09:00:00.000Z",
+  "lastUpdated": "{{now}}",
+  "lastMembershipUpdated": "{{now}}",
+  "objectClass": ["okta:user_group"],
+  "type": "OKTA_GROUP",
+  "profile": {
+    "name": "{{group_name}}",
+    "description": "{{group_name}} (managed by JML)"
+  }
+}
