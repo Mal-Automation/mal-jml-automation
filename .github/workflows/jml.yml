@@ -1,0 +1,101 @@
+# Runs a real Joiner or Leaver on demand (Actions tab > "Run workflow"),
+# or automatically when an HRIS sends a repository_dispatch event:
+#
+#   curl -X POST -H "Authorization: Bearer $GH_TOKEN" \
+#     https://api.github.com/repos/<owner>/<repo>/dispatches \
+#     -d '{"event_type":"jml-leaver","client_payload":{"email":"bob@mal.example"}}'
+#
+# Credentials come from repository secrets; anything unset is mocked.
+name: JML run
+
+on:
+  workflow_dispatch:
+    inputs:
+      event:
+        description: joiner or leaver
+        type: choice
+        options: [joiner, leaver]
+        required: true
+      email:
+        description: Employee e-mail
+        required: true
+      first_name:
+        description: First name (joiner only)
+        required: false
+      last_name:
+        description: Last name (joiner only)
+        required: false
+      okta_group:
+        description: Okta group (joiner only)
+        default: engineering
+      vault_group:
+        description: 1Password vault group (joiner only)
+        default: Engineering
+      mode:
+        description: auto (live where creds exist) or mock
+        type: choice
+        options: [auto, mock]
+        default: auto
+  repository_dispatch:
+    types: [jml-joiner, jml-leaver]
+
+concurrency:
+  group: jml-${{ github.event.inputs.email || github.event.client_payload.email }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      JML_MODE: ${{ github.event.inputs.mode || 'auto' }}
+      OKTA_ORG_URL: ${{ secrets.OKTA_ORG_URL }}
+      OKTA_API_TOKEN: ${{ secrets.OKTA_API_TOKEN }}
+      GWS_ADMIN_SUBJECT: ${{ secrets.GWS_ADMIN_SUBJECT }}
+      OP_SCIM_BRIDGE_URL: ${{ secrets.OP_SCIM_BRIDGE_URL }}
+      OP_SCIM_TOKEN: ${{ secrets.OP_SCIM_TOKEN }}
+      OP_EVENTS_TOKEN: ${{ secrets.OP_EVENTS_TOKEN }}
+      JAMF_URL: ${{ secrets.JAMF_URL }}
+      JAMF_USERNAME: ${{ secrets.JAMF_USERNAME }}
+      JAMF_PASSWORD: ${{ secrets.JAMF_PASSWORD }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # inputs are passed via env, never interpolated into shell (injection-safe)
+      EVENT: ${{ github.event.inputs.event || (github.event.action == 'jml-joiner' && 'joiner' || 'leaver') }}
+      EMAIL: ${{ github.event.inputs.email || github.event.client_payload.email }}
+      FIRST: ${{ github.event.inputs.first_name || github.event.client_payload.first_name }}
+      LAST: ${{ github.event.inputs.last_name || github.event.client_payload.last_name }}
+      OKTA_GROUP: ${{ github.event.inputs.okta_group || github.event.client_payload.okta_group || 'engineering' }}
+      VAULT_GROUP: ${{ github.event.inputs.vault_group || github.event.client_payload.vault_group || 'Engineering' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Write GWS service-account key
+        env:
+          GWS_SA_JSON: ${{ secrets.GWS_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -n "$GWS_SA_JSON" ]; then
+            umask 077
+            printf '%s' "$GWS_SA_JSON" > "$RUNNER_TEMP/sa.json"
+            echo "GWS_SERVICE_ACCOUNT_FILE=$RUNNER_TEMP/sa.json" >> "$GITHUB_ENV"
+          fi
+      - name: Run JML
+        run: |
+          if [ "$EVENT" = "joiner" ]; then
+            python -m jml join --first "$FIRST" --last "$LAST" --email "$EMAIL" \
+              --okta-group "$OKTA_GROUP" --vault-group "$VAULT_GROUP"
+          else
+            python -m jml leave --email "$EMAIL"
+          fi
+      - name: Upload audit record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jml-audit-${{ github.run_id }}
+          path: reports/
+          retention-days: 90
